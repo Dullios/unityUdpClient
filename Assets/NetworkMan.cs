@@ -17,8 +17,8 @@ public class NetworkMan : MonoBehaviour
     {
         udp = new UdpClient();
 
-        //udp.Connect("52.15.65.92", 12345);
-        udp.Connect("localhost", 12345);
+        udp.Connect("52.15.65.92", 12345);
+        //udp.Connect("localhost", 12345);
 
         Byte[] sendBytes = Encoding.ASCII.GetBytes("connect");
       
@@ -91,6 +91,30 @@ public class NetworkMan : MonoBehaviour
                     break;
                 case commands.UPDATE:
                     lastestGameState = JsonUtility.FromJson<GameState>(returnData);
+                    bool isListed = false;
+                    int index = 0;
+                    foreach(Player p1 in lastestGameState.players)
+                    {
+                        foreach(Player p2 in playerList)
+                        {
+                            if (p1.id == p2.id)
+                            {
+                                isListed = true;
+                                index = playerList.IndexOf(p2);
+                                break;
+                            }
+                        }
+
+                        if(isListed)
+                        {
+                            playerList[index] = p1;
+                        }
+                        else
+                        {
+                            playerList.Add(p1);
+                        }
+                        isListed = false;
+                    }
                     break;
                 case commands.REMOVE_CLIENT:
                     Debug.Log(JsonUtility.FromJson<Message>(returnData));

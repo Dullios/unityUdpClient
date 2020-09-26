@@ -53,8 +53,18 @@ public class NetworkMan : MonoBehaviour
             public float G;
             public float B;
         }
+        [Serializable]
+        public struct receivedPosition
+        {
+            public float x;
+            public float y;
+            public float z;
+        }
         public string id;
-        public receivedColor color;        
+        public receivedColor color;
+        public receivedPosition position;
+
+        GameObject cube;
     }
 
     [Serializable]

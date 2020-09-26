@@ -33,7 +33,8 @@ public class NetworkMan : MonoBehaviour
 
     public enum commands{
         NEW_CLIENT,
-        UPDATE
+        UPDATE,
+        REMOVE_CLIENT
     };
     
     [Serializable]
@@ -86,6 +87,9 @@ public class NetworkMan : MonoBehaviour
                     break;
                 case commands.UPDATE:
                     lastestGameState = JsonUtility.FromJson<GameState>(returnData);
+                    break;
+                case commands.REMOVE_CLIENT:
+                    Debug.Log(JsonUtility.FromJson<Message>(returnData));
                     break;
                 default:
                     Debug.Log("Error");

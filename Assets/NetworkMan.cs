@@ -9,6 +9,9 @@ using System.Net;
 public class NetworkMan : MonoBehaviour
 {
     public UdpClient udp;
+
+    public List<Player> playerList = new List<Player>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -84,6 +87,7 @@ public class NetworkMan : MonoBehaviour
         try{
             switch(latestMessage.cmd){
                 case commands.NEW_CLIENT:
+                    playerList.Add(JsonUtility.FromJson<Player>(returnData));
                     break;
                 case commands.UPDATE:
                     lastestGameState = JsonUtility.FromJson<GameState>(returnData);

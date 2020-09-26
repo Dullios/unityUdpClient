@@ -117,7 +117,14 @@ public class NetworkMan : MonoBehaviour
                     }
                     break;
                 case commands.REMOVE_CLIENT:
-                    Debug.Log(JsonUtility.FromJson<Message>(returnData));
+                    foreach(Player p in playerList)
+                    {
+                        if(p.id == JsonUtility.FromJson<Player>(returnData).id)
+                        {
+                            playerList.Remove(p);
+                            break;
+                        }
+                    }
                     break;
                 default:
                     Debug.Log("Error");

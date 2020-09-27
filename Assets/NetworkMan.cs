@@ -64,7 +64,10 @@ public class NetworkMan : MonoBehaviour
         public receivedColor color;
         public receivedPosition position;
 
-        GameObject cube;
+        public GameObject cube;
+        public bool hasCube = false;
+        public bool hasUpdate = false;
+        public bool hasDestroy = false;
     }
 
     [Serializable]
@@ -97,7 +100,8 @@ public class NetworkMan : MonoBehaviour
         try{
             switch(latestMessage.cmd){
                 case commands.NEW_CLIENT:
-                    playerList.Add(JsonUtility.FromJson<Player>(returnData));
+                    Player player = JsonUtility.FromJson<Player>(returnData);
+                    playerList.Add(player);
                     break;
                 case commands.UPDATE:
                     lastestGameState = JsonUtility.FromJson<GameState>(returnData);
@@ -117,12 +121,17 @@ public class NetworkMan : MonoBehaviour
 
                         if(isListed)
                         {
+                            p1.cube = playerList[index].cube;
+                            p1.hasCube = playerList[index].hasCube;
+                            p1.hasUpdate = true;
+                            
                             playerList[index] = p1;
                         }
                         else
                         {
                             playerList.Add(p1);
                         }
+
                         isListed = false;
                     }
                     break;
@@ -131,7 +140,7 @@ public class NetworkMan : MonoBehaviour
                     {
                         if(p.id == JsonUtility.FromJson<Player>(returnData).id)
                         {
-                            playerList.Remove(p);
+                            p.hasDestroy = true;
                             break;
                         }
                     }
@@ -150,15 +159,38 @@ public class NetworkMan : MonoBehaviour
     }
 
     void SpawnPlayers(){
-
+        foreach(Player p in playerList)
+        {
+            if(!p.hasCube)
+            {
+                p.cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                p.cube.transform.position = new Vector3(p.position.x, p.position.y, p.position.z);
+                p.cube.GetComponent<MeshRenderer>().material.color = new Color(p.color.R, p.color.G, p.color.B);
+                p.hasCube = true;
+            }
+        }
     }
 
     void UpdatePlayers(){
-
+        foreach(Player p in playerList)
+        {
+            if (p.hasUpdate)
+            {
+                p.cube.GetComponent<MeshRenderer>().material.color = new Color(p.color.R, p.color.G, p.color.B);
+                p.hasUpdate = false;
+            }
+        }
     }
 
     void DestroyPlayers(){
-
+        foreach(Player p in playerList)
+        {
+            if(p.hasDestroy)
+            {
+                Destroy(p.cube);
+                playerList.Remove(p);
+            }
+        }
     }
     
     void HeartBeat(){

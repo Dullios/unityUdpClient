@@ -183,13 +183,20 @@ public class NetworkMan : MonoBehaviour
     }
 
     void DestroyPlayers(){
+        List<int> indices = new List<int>();
+
         foreach(Player p in playerList)
         {
             if(p.hasDestroy)
             {
                 Destroy(p.cube);
-                playerList.Remove(p);
+                indices.Add(playerList.IndexOf(p));
             }
+        }
+
+        foreach(int i in indices)
+        {
+            playerList.RemoveAt(i);
         }
     }
     

@@ -127,6 +127,7 @@ public class NetworkMan : MonoBehaviour
                         if(isListed)
                         {
                             p1.cube = playerList[index].cube;
+                            p1.cube.transform.position = new Vector3(p1.position.x, p1.position.y, p1.position.z);
                             p1.hasCube = playerList[index].hasCube;
                             p1.hasUpdate = true;
                             

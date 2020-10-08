@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CubeController : MonoBehaviour
 {
+    public string id;
+    public NetworkMan netMan;
+    
     private Vector3 currentPos;
 
     // Start is called before the first frame update
@@ -17,26 +20,29 @@ public class CubeController : MonoBehaviour
     {
         currentPos = gameObject.transform.position;
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (id == netMan.selfID)
         {
-            currentPos.x--;
-            gameObject.transform.position = currentPos;
-        }
-        else if(Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            currentPos.x++;
-            gameObject.transform.position = currentPos;
-        }
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                currentPos.x--;
+                gameObject.transform.position = currentPos;
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                currentPos.x++;
+                gameObject.transform.position = currentPos;
+            }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            currentPos.y--;
-            gameObject.transform.position = currentPos;
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            currentPos.y++;
-            gameObject.transform.position = currentPos;
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                currentPos.y--;
+                gameObject.transform.position = currentPos;
+            }
+            else if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                currentPos.y++;
+                gameObject.transform.position = currentPos;
+            }
         }
     }
 }

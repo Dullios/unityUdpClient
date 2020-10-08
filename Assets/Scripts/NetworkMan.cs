@@ -168,8 +168,9 @@ public class NetworkMan : MonoBehaviour
         {
             if(!p.hasCube)
             {
-                //p.cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 p.cube = GameObject.Instantiate(cubePrefab);
+                p.cube.GetComponent<CubeController>().id = p.id;
+                p.cube.GetComponent<CubeController>().netMan = this;
                 p.cube.transform.position = new Vector3(p.position.x, p.position.y, p.position.z);
                 p.cube.GetComponent<MeshRenderer>().material.color = new Color(p.color.R, p.color.G, p.color.B);
                 p.hasCube = true;

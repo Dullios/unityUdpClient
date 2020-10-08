@@ -319,6 +319,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ad586668d834644b8076c3e4f8466f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubePrefab: {fileID: 5328881957684262570, guid: 4eb6ca04f2bd7f040b8e66e093c6dcb9,
+    type: 3}
+  selfID: 
   playerList: []
   latestMessage:
     cmd: 0

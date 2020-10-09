@@ -30,7 +30,7 @@ public class NetworkMan : MonoBehaviour
         udp.BeginReceive(new AsyncCallback(OnReceived), udp);
 
         InvokeRepeating("HeartBeat", 1, 1);
-        InvokeRepeating("PositionUpdate", 1, 0.3f);
+        InvokeRepeating("PositionUpdate", 1, 0.03f);
     }
 
     void OnDestroy(){

@@ -11,7 +11,7 @@ public class NetworkMan : MonoBehaviour
     public UdpClient udp;
     public GameObject cubePrefab;
 
-    public string selfID;
+    public string selfID = "";
 
     public List<Player> playerList = new List<Player>();
 
@@ -106,7 +106,8 @@ public class NetworkMan : MonoBehaviour
                 case commands.NEW_CLIENT:
                     Player player = JsonUtility.FromJson<Player>(returnData);
                     playerList.Add(player);
-                    selfID = player.id;
+                    if(selfID == "")
+                        selfID = player.id;
                     break;
                 case commands.UPDATE:
                     lastestGameState = JsonUtility.FromJson<GameState>(returnData);
@@ -228,7 +229,8 @@ public class NetworkMan : MonoBehaviour
         {
             if(p.id == selfID)
             {
-                string json = JsonUtility.ToJson(p);
+                string json = JsonUtility.ToJson(p.position);
+                //Debug.Log(json);
                 Byte[] sendBytes = Encoding.ASCII.GetBytes(json);
                 udp.Send(sendBytes, sendBytes.Length);
             }
